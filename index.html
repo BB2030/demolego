@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APP BB</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap');
+:root{--plum:#2D0845;--lav:#9333EA;--ls:#F3EAFF;--bg:#FAFAFE;--card:#fff;--bdr:#E8E0F0;--txt:#3D2E52;--mu:#7B6E8F;--dk:#1A0D2E;--red:#DC2646;--or:#D97706;--grn:#16A34A;--blu:#2563EB}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);display:flex;flex-direction:column}
+.mono{font-family:'Space Mono',monospace}
+
+nav{background:var(--card);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;height:50px;flex-shrink:0;box-shadow:0 1px 3px rgba(45,8,69,.04)}
+.nb{font-family:'Space Mono',monospace;font-size:13px;color:var(--lav);letter-spacing:2px;font-weight:700;margin-right:28px}
+.tabs{display:flex;gap:2px}
+.t{padding:7px 18px;font-size:13px;color:var(--mu);cursor:pointer;border-radius:6px;white-space:nowrap;transition:all .15s;user-select:none}
+.t:hover{color:var(--dk);background:var(--ls)}
+.t.on{color:var(--lav);background:var(--ls);font-weight:600}
+
+.pa{flex:1;overflow-y:auto}
+.pg{display:none;padding:40px 24px 60px;max-width:800px;margin:0 auto;animation:fi .2s ease}
+.pg.on{display:block}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;color:var(--dk);line-height:1.3;margin-bottom:16px}
+h2 em{color:var(--lav);font-style:normal}
+p{font-size:15px;color:var(--txt);margin-bottom:14px;line-height:1.7;max-width:680px}
+p.sm{color:var(--mu);font-size:13px}
+strong{color:var(--dk)}
+
+/* Flow */
+.flow{display:flex;gap:12px;margin:24px 0;align-items:stretch}
+.flow-card{flex:1;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(45,8,69,.04);text-align:center;position:relative}
+.flow-card::after{content:'→';position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--lav);font-size:20px;font-weight:700}
+.flow-card:last-child::after{display:none}
+.fc-num{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--lav);margin-bottom:4px}
+.fc-title{font-weight:700;font-size:14px;color:var(--dk);margin-bottom:6px}
+.fc-desc{font-size:12px;color:var(--mu);line-height:1.5}
+
+/* Value boxes */
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.vbox{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:14px;box-shadow:0 1px 3px rgba(45,8,69,.04)}
+.vbox-icon{font-size:20px;margin-bottom:4px}
+.vbox-title{font-weight:700;font-size:13px;color:var(--dk);margin-bottom:3px}
+.vbox-desc{font-size:12px;color:var(--mu);line-height:1.5}
+.vbox-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--lav);margin-top:4px}
+
+/* Demo */
+.badge{display:inline-block;background:rgba(147,51,234,.08);color:var(--lav);font-family:'Space Mono',monospace;font-size:10px;padding:3px 10px;border-radius:3px;letter-spacing:1px;margin-bottom:10px}
+.rc{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(45,8,69,.04)}
+.rt{font-family:'Space Mono',monospace;font-size:11px;color:var(--lav);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+
+table.d{width:100%;border-collapse:collapse;font-size:12px}
+table.d th{background:var(--plum);color:#fff;padding:7px 8px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.3px;font-weight:500}
+table.d th:first-child{border-radius:5px 0 0 0;text-align:left}
+table.d th:last-child{border-radius:0 5px 0 0}
+table.d td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--bdr)}
+table.d td:first-child{text-align:left;font-weight:600}
+.pl{padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap}
+.po{background:rgba(217,119,6,.08);color:var(--or)}
+.pe{background:rgba(220,38,70,.06);color:var(--red)}
+.pg2{background:rgba(22,163,74,.07);color:var(--grn)}
+
+/* Button */
+.bb{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
+.bx{background:var(--lav);color:#fff;box-shadow:0 2px 8px rgba(147,51,234,.15)}
+.bx:hover{box-shadow:0 4px 14px rgba(147,51,234,.25)}
+.bx.dm{background:linear-gradient(135deg,var(--lav),#7C3AED)}
+.bdl{background:var(--dk);color:#fff;box-shadow:0 2px 8px rgba(26,13,46,.2)}
+.bdl:hover{box-shadow:0 4px 14px rgba(26,13,46,.3)}
+
+/* Loader */
+.lo{position:fixed;inset:0;background:rgba(250,250,254,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;opacity:0;pointer-events:none;transition:opacity .2s}
+.lo.on{opacity:1;pointer-events:all}
+.sp{width:36px;height:36px;border:3px solid var(--bdr);border-top-color:var(--lav);border-radius:50%;animation:sp .7s linear infinite;margin-bottom:12px}
+.lt{font-family:'Space Mono',monospace;font-size:12px;color:var(--lav)}.ls{color:var(--mu);font-size:11px;margin-top:3px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:640px){.flow{flex-direction:column}.flow-card::after{display:none}.vgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nb">APP BB</div>
+  <div class="tabs">
+    <div class="t on" onclick="go(0)">Qué hace</div>
+    <div class="t" onclick="go(1)">Demo</div>
+  </div>
+</nav>
+
+<div class="pa">
+
+<!-- ═══ QUÉ HACE ═══ -->
+<div class="pg on" id="p0">
+  <h2>Subes tu Excel. Te devuelve <em>decisiones.</em></h2>
+  
+  <div class="flow">
+    <div class="flow-card">
+      <div class="fc-num">📎</div>
+      <div class="fc-title">Sube lo que ya tienes</div>
+      <div class="fc-desc">Sell-in, sell-out de retailers, inventario. El Excel que el equipo ya arma. Sin formato especial.</div>
+    </div>
+    <div class="flow-card">
+      <div class="fc-num">⚡</div>
+      <div class="fc-title">La app cruza todo</div>
+      <div class="fc-desc">SI × SO × inventario × estacionalidad × lead time de fábrica. En 2 minutos.</div>
+    </div>
+    <div class="flow-card">
+      <div class="fc-num">📊</div>
+      <div class="fc-title">Excel accionable</div>
+      <div class="fc-desc">Alertas, cobertura por SKU, balance comercial en USD, forecast. Descargable y listo para usar.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:18px;margin-top:32px">¿Qué sale del cruce que <em>hoy no se hace</em>?</h2>
+
+  <div class="vgrid">
+    <div class="vbox">
+      <div class="vbox-icon">📦</div>
+      <div class="vbox-title">Cobertura real por SKU × canal</div>
+      <div class="vbox-desc">Cuántas semanas de stock queda de cada producto en cada punto de venta. Calibrado al lead time real (fábrica + distribución = 14 semanas).</div>
+      <div class="vbox-val">→ Sabes qué reponer ANTES del quiebre</div>
+    </div>
+    <div class="vbox">
+      <div class="vbox-icon">🔄</div>
+      <div class="vbox-title">Redistribución entre canales</div>
+      <div class="vbox-desc">Un SKU con baja rotación en retail pero con sell-through alto en DTC. El cruce identifica dónde mover stock en vez de liquidar.</div>
+      <div class="vbox-val">→ Menos liquidación, más venta a precio full</div>
+    </div>
+    <div class="vbox">
+      <div class="vbox-icon">💰</div>
+      <div class="vbox-title">Balance comercial en USD</div>
+      <div class="vbox-desc">Cada GAP entre lo planificado y lo que realmente pasó, cuantificado. Por tema, por SKU, por canal, por mes.</div>
+      <div class="vbox-val">→ Sabes exactamente dónde ajustar</div>
+    </div>
+    <div class="vbox">
+      <div class="vbox-icon">📈</div>
+      <div class="vbox-title">Forecast con 3 escenarios</div>
+      <div class="vbox-desc">Base, optimista, pesimista. Ajustable semana a semana con datos reales. No un número estático de enero.</div>
+      <div class="vbox-val">→ Decisiones sobre un rango, no sobre un punto</div>
+    </div>
+  </div>
+
+  <p class="sm" style="margin-top:16px">100% modular. Se activa lo que sirve, con la data que exista. Sin integraciones, sin SAP, sin IT.</p>
+</div>
+
+<!-- ═══ DEMO ═══ -->
+<div class="pg" id="p1">
+  <div id="pre">
+    <h2>Demo — <em>Building Sets Chile</em></h2>
+    <p>50 SKUs × 5 canales × 12 meses. Estructura real, datos simulados.</p>
+    <button class="bb bx dm" onclick="runDemo()" style="margin-top:12px">▶ Correr demo</button>
+  </div>
+
+  <div id="post" style="display:none">
+    <span class="badge">DEMO · DATOS SIMULADOS</span>
+
+    <!-- COBERTURA -->
+    <div class="rc">
+      <div class="rt">📦 Cobertura por tema × canal</div>
+      <div style="overflow-x:auto">
+        <table class="d">
+          <thead><tr><th>Tema</th><th>Stock</th><th>Vta/Mes</th><th>Cobertura</th><th>Status</th><th>Acción sugerida</th></tr></thead>
+          <tbody>
+            <tr><td>Harry Potter</td><td class="mono">1,990</td><td class="mono">290</td><td class="mono" style="color:var(--red)"><strong>6.9m</strong></td><td><span class="pl po">SOBRE PLAN</span></td><td style="font-size:10px;text-align:left">Revisar volumen OC. Redistribuir a DTC.</td></tr>
+            <tr><td>Star Wars</td><td class="mono">1,705</td><td class="mono">380</td><td class="mono" style="color:var(--or)">4.5m</td><td><span class="pl po">SOBRE PLAN</span></td><td style="font-size:10px;text-align:left">Ajustar OC. Evaluar redistribución 75419.</td></tr>
+            <tr><td>City</td><td class="mono">1,110</td><td class="mono">350</td><td class="mono" style="color:var(--grn)">3.2m</td><td><span class="pl pg2">OK</span></td><td style="font-size:10px;text-align:left">Mantener.</td></tr>
+            <tr><td>Speed Champions</td><td class="mono">700</td><td class="mono">280</td><td class="mono" style="color:var(--grn)">2.5m</td><td><span class="pl pg2">OK</span></td><td style="font-size:10px;text-align:left">Seguimiento semanal activado.</td></tr>
+            <tr><td>Technic</td><td class="mono">432</td><td class="mono">310</td><td class="mono" style="color:var(--or)"><strong>2.8m</strong></td><td><span class="pl pe">BAJO UMBRAL</span></td><td style="font-size:10px;text-align:left">OC requerida. Lead time 14 sem.</td></tr>
+            <tr><td>Icons</td><td class="mono">275</td><td class="mono">195</td><td class="mono" style="color:var(--or)"><strong>2.5m</strong></td><td><span class="pl pe">BAJO UMBRAL</span></td><td style="font-size:10px;text-align:left">Reposición sets premium DTC.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REDISTRIBUCIÓN -->
+    <div class="rc">
+      <div class="rt">🔄 Oportunidades de redistribución</div>
+      <div style="overflow-x:auto">
+        <table class="d">
+          <thead><tr><th>SKU</th><th>Descripción</th><th>Canal origen</th><th>Canal destino</th><th>Uds</th><th>Por qué</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">75419</td><td style="text-align:left">Estrella de la Muerte</td><td>Falabella</td><td>tiendalego.cl</td><td class="mono">43</td><td style="font-size:10px;text-align:left">Sell-through DTC 2.3x mayor</td></tr>
+            <tr><td class="mono">76435</td><td style="text-align:left">Hogwarts Express</td><td>Ripley</td><td>tiendalego.cl</td><td class="mono">28</td><td style="font-size:10px;text-align:left">Cobertura 6.9m en Ripley, 1.8m en DTC</td></tr>
+            <tr><td class="mono">10328</td><td style="text-align:left">Ramo de Rosas</td><td>Paris</td><td>MercadoLibre</td><td class="mono">35</td><td style="font-size:10px;text-align:left">Rotación 3x mayor en marketplace</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BALANCE COMERCIAL -->
+    <div class="rc">
+      <div class="rt">💰 Balance Comercial — Top GAPs en USD</div>
+      <div style="overflow-x:auto">
+        <table class="d">
+          <thead><tr><th>Mes</th><th>SKU</th><th>Descripción</th><th>Canal</th><th>GAP uds</th><th>GAP USD</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Dic</td><td class="mono">10357</td><td style="text-align:left">Shelby Cobra 427</td><td>tiendalego.cl</td><td class="mono" style="color:var(--grn)">-13</td><td class="mono" style="color:var(--grn)">-$5,777</td><td><span class="pl pe">DÉFICIT</span></td></tr>
+            <tr><td>Dic</td><td class="mono">76435</td><td style="text-align:left">Hogwarts Express</td><td>Ripley</td><td class="mono" style="color:var(--red)">+24</td><td class="mono" style="color:var(--red)">$5,328</td><td><span class="pl po">EXCESO</span></td></tr>
+            <tr><td>Dic</td><td class="mono">75419</td><td style="text-align:left">Estrella de la Muerte</td><td>Falabella</td><td class="mono" style="color:var(--red)">+43</td><td class="mono" style="color:var(--red)">$4,300</td><td><span class="pl po">EXCESO</span></td></tr>
+            <tr><td>Nov</td><td class="mono">42205</td><td style="text-align:left">Corvette Stingray</td><td>Falabella</td><td class="mono" style="color:var(--grn)">-19</td><td class="mono" style="color:var(--grn)">-$3,166</td><td><span class="pl pe">DÉFICIT</span></td></tr>
+            <tr><td>Nov</td><td class="mono">75375</td><td style="text-align:left">Halcón Milenario</td><td>Ripley</td><td class="mono" style="color:var(--grn)">-14</td><td class="mono" style="color:var(--grn)">-$2,488</td><td><span class="pl pe">DÉFICIT</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FORECAST -->
+    <div class="rc">
+      <div class="rt">📈 Forecast Dic-26 — 3 escenarios</div>
+      <div style="overflow-x:auto">
+        <table class="d">
+          <thead><tr><th>SKU</th><th>Descripción</th><th>Canal</th><th>Pesimista</th><th>Base</th><th>Optimista</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">75419</td><td style="text-align:left">Estrella de la Muerte</td><td>Falabella</td><td class="mono" style="color:var(--red)">52</td><td class="mono"><strong>68</strong></td><td class="mono" style="color:var(--grn)">82</td></tr>
+            <tr><td class="mono">42205</td><td style="text-align:left">Corvette Stingray</td><td>Falabella</td><td class="mono" style="color:var(--red)">28</td><td class="mono"><strong>38</strong></td><td class="mono" style="color:var(--grn)">46</td></tr>
+            <tr><td class="mono">10357</td><td style="text-align:left">Shelby Cobra 427</td><td>tiendalego.cl</td><td class="mono" style="color:var(--red)">14</td><td class="mono"><strong>22</strong></td><td class="mono" style="color:var(--grn)">28</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div style="text-align:center;margin:24px 0 8px">
+      <a href="APP_BB_Demo_LEGO_Chile.xlsx" download class="bb bdl" style="font-size:15px;padding:14px 32px">
+        ⬇ Descargar Excel completo
+      </a>
+      <p class="sm" style="margin-top:10px">6 hojas: Sell-In por SKU, Sell-Out, Inventario, Balance Comercial, Forecast 2026, Resumen Ejecutivo.</p>
+    </div>
+
+    <div style="margin-top:20px;padding:16px;background:var(--ls);border-radius:8px;border:1px solid var(--bdr)">
+      <p style="font-size:14px;color:var(--dk);margin-bottom:0"><strong>¿Funciona con tu data real?</strong> 3 meses de sell-in y sell-out en Excel. Las alertas se generan en 24 horas.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="lo" id="lo">
+  <div class="sp"></div>
+  <div class="lt" id="lt">Procesando...</div>
+  <div class="ls" id="ls"></div>
+</div>
+
+<script>
+let c=0;
+function go(i){c=i;document.querySelectorAll('.pg').forEach((p,j)=>p.classList.toggle('on',j===i));document.querySelectorAll('.t').forEach((t,j)=>t.classList.toggle('on',j===i));document.querySelector('.pa').scrollTop=0}
+const st=[["Cruzando sell-in × sell-out × inventario...",600],["Calculando cobertura por SKU × canal...",500],["Identificando redistribución entre canales...",700],["Cuantificando balance comercial...",600],["Generando forecast 3 escenarios...",700]];
+async function runDemo(){const l=document.getElementById('lo'),t=document.getElementById('lt'),s=document.getElementById('ls');l.classList.add('on');for(let i=0;i<st.length;i++){t.textContent=st[i][0];s.textContent=`${i+1}/${st.length}`;await new Promise(r=>setTimeout(r,st[i][1]))}l.classList.remove('on');document.getElementById('pre').style.display='none';document.getElementById('post').style.display='block'}
+</script>
+</body>
+</html>
