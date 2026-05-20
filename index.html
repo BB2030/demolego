@@ -1,254 +1,259 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APP BB</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APP — LEGO Chile</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap');
-:root{--plum:#2D0845;--lav:#9333EA;--ls:#F3EAFF;--bg:#FAFAFE;--card:#fff;--bdr:#E8E0F0;--txt:#3D2E52;--mu:#7B6E8F;--dk:#1A0D2E;--red:#DC2646;--or:#D97706;--grn:#16A34A;--blu:#2563EB}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);display:flex;flex-direction:column}
-.mono{font-family:'Space Mono',monospace}
-
-nav{background:var(--card);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;height:50px;flex-shrink:0;box-shadow:0 1px 3px rgba(45,8,69,.04)}
-.nb{font-family:'Space Mono',monospace;font-size:13px;color:var(--lav);letter-spacing:2px;font-weight:700;margin-right:28px}
-.tabs{display:flex;gap:2px}
-.t{padding:7px 18px;font-size:13px;color:var(--mu);cursor:pointer;border-radius:6px;white-space:nowrap;transition:all .15s;user-select:none}
-.t:hover{color:var(--dk);background:var(--ls)}
-.t.on{color:var(--lav);background:var(--ls);font-weight:600}
-
-.pa{flex:1;overflow-y:auto}
-.pg{display:none;padding:40px 24px 60px;max-width:800px;margin:0 auto;animation:fi .2s ease}
-.pg.on{display:block}
-@keyframes fi{from{opacity:0}to{opacity:1}}
-h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;color:var(--dk);line-height:1.3;margin-bottom:16px}
-h2 em{color:var(--lav);font-style:normal}
-p{font-size:15px;color:var(--txt);margin-bottom:14px;line-height:1.7;max-width:680px}
-p.sm{color:var(--mu);font-size:13px}
-strong{color:var(--dk)}
-
-/* Flow */
-.flow{display:flex;gap:12px;margin:24px 0;align-items:stretch}
-.flow-card{flex:1;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(45,8,69,.04);text-align:center;position:relative}
-.flow-card::after{content:'→';position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--lav);font-size:20px;font-weight:700}
-.flow-card:last-child::after{display:none}
-.fc-num{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--lav);margin-bottom:4px}
-.fc-title{font-weight:700;font-size:14px;color:var(--dk);margin-bottom:6px}
-.fc-desc{font-size:12px;color:var(--mu);line-height:1.5}
-
-/* Value boxes */
-.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
-.vbox{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:14px;box-shadow:0 1px 3px rgba(45,8,69,.04)}
-.vbox-icon{font-size:20px;margin-bottom:4px}
-.vbox-title{font-weight:700;font-size:13px;color:var(--dk);margin-bottom:3px}
-.vbox-desc{font-size:12px;color:var(--mu);line-height:1.5}
-.vbox-val{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--lav);margin-top:4px}
-
-/* Demo */
-.badge{display:inline-block;background:rgba(147,51,234,.08);color:var(--lav);font-family:'Space Mono',monospace;font-size:10px;padding:3px 10px;border-radius:3px;letter-spacing:1px;margin-bottom:10px}
-.rc{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(45,8,69,.04)}
-.rt{font-family:'Space Mono',monospace;font-size:11px;color:var(--lav);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
-
-table.d{width:100%;border-collapse:collapse;font-size:12px}
-table.d th{background:var(--plum);color:#fff;padding:7px 8px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.3px;font-weight:500}
-table.d th:first-child{border-radius:5px 0 0 0;text-align:left}
-table.d th:last-child{border-radius:0 5px 0 0}
-table.d td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--bdr)}
-table.d td:first-child{text-align:left;font-weight:600}
-.pl{padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap}
-.po{background:rgba(217,119,6,.08);color:var(--or)}
-.pe{background:rgba(220,38,70,.06);color:var(--red)}
-.pg2{background:rgba(22,163,74,.07);color:var(--grn)}
-
-/* Button */
-.bb{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
-.bx{background:var(--lav);color:#fff;box-shadow:0 2px 8px rgba(147,51,234,.15)}
-.bx:hover{box-shadow:0 4px 14px rgba(147,51,234,.25)}
-.bx.dm{background:linear-gradient(135deg,var(--lav),#7C3AED)}
-.bdl{background:var(--dk);color:#fff;box-shadow:0 2px 8px rgba(26,13,46,.2)}
-.bdl:hover{box-shadow:0 4px 14px rgba(26,13,46,.3)}
-
-/* Loader */
-.lo{position:fixed;inset:0;background:rgba(250,250,254,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;opacity:0;pointer-events:none;transition:opacity .2s}
-.lo.on{opacity:1;pointer-events:all}
-.sp{width:36px;height:36px;border:3px solid var(--bdr);border-top-color:var(--lav);border-radius:50%;animation:sp .7s linear infinite;margin-bottom:12px}
-.lt{font-family:'Space Mono',monospace;font-size:12px;color:var(--lav)}.ls{color:var(--mu);font-size:11px;margin-top:3px}
-@keyframes sp{to{transform:rotate(360deg)}}
-@media(max-width:640px){.flow{flex-direction:column}.flow-card::after{display:none}.vgrid{grid-template-columns:1fr}}
+body{font-family:Outfit,sans-serif;background:#fff;color:#37352F;max-width:800px;margin:0 auto;padding:16px}
+.mono{font-family:monospace;font-size:10px}
+.dt{width:100%;border-collapse:collapse;font-size:11px}
+.dt th{padding:8px 10px;text-align:left;font-weight:500;color:#9B9A97;font-size:10px;border-bottom:2px solid #E9E9E7;background:white}
+.dt td{padding:8px 10px;border-bottom:1px solid #F0F0F0;font-size:11px;color:#37352F}
+.dt td.num{text-align:right;font-family:monospace;font-size:11px}
+.dt td.code{font-family:monospace;font-size:11px;color:#5B4FE8;font-weight:600}
+.dt tr:hover{background:#FAFAFF}
+.acc{border-radius:8px;margin-bottom:6px;overflow:hidden;background:#F7F6F3}
+.acc-h{padding:10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.acc-h:hover{background:#EEEDE9}
+.acc-b{display:none;padding:0 10px 10px;overflow-x:auto}
+.acc.open .acc-b{display:block}
+.acc .ar{transition:transform .2s}
+.acc.open .ar{transform:rotate(90deg)}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nb">APP BB</div>
-  <div class="tabs">
-    <div class="t on" onclick="go(0)">Qué hace</div>
-    <div class="t" onclick="go(1)">Demo</div>
-  </div>
-</nav>
-
-<div class="pa">
-
-<!-- ═══ QUÉ HACE ═══ -->
-<div class="pg on" id="p0">
-  <h2>Subes tu Excel. Te devuelve <em>decisiones.</em></h2>
-  
-  <div class="flow">
-    <div class="flow-card">
-      <div class="fc-num">📎</div>
-      <div class="fc-title">Sube lo que ya tienes</div>
-      <div class="fc-desc">Sell-in, sell-out de retailers, inventario. El Excel que el equipo ya arma. Sin formato especial.</div>
-    </div>
-    <div class="flow-card">
-      <div class="fc-num">⚡</div>
-      <div class="fc-title">La app cruza todo</div>
-      <div class="fc-desc">SI × SO × inventario × estacionalidad × lead time de fábrica. En 2 minutos.</div>
-    </div>
-    <div class="flow-card">
-      <div class="fc-num">📊</div>
-      <div class="fc-title">Excel accionable</div>
-      <div class="fc-desc">Alertas, cobertura por SKU, balance comercial en USD, forecast. Descargable y listo para usar.</div>
-    </div>
-  </div>
-
-  <h2 style="font-size:18px;margin-top:32px">¿Qué sale del cruce que <em>hoy no se hace</em>?</h2>
-
-  <div class="vgrid">
-    <div class="vbox">
-      <div class="vbox-icon">📦</div>
-      <div class="vbox-title">Cobertura real por SKU × canal</div>
-      <div class="vbox-desc">Cuántas semanas de stock queda de cada producto en cada punto de venta. Calibrado al lead time real (fábrica + distribución = 14 semanas).</div>
-      <div class="vbox-val">→ Sabes qué reponer ANTES del quiebre</div>
-    </div>
-    <div class="vbox">
-      <div class="vbox-icon">🔄</div>
-      <div class="vbox-title">Redistribución entre canales</div>
-      <div class="vbox-desc">Un SKU con baja rotación en retail pero con sell-through alto en DTC. El cruce identifica dónde mover stock en vez de liquidar.</div>
-      <div class="vbox-val">→ Menos liquidación, más venta a precio full</div>
-    </div>
-    <div class="vbox">
-      <div class="vbox-icon">💰</div>
-      <div class="vbox-title">Balance comercial en USD</div>
-      <div class="vbox-desc">Cada GAP entre lo planificado y lo que realmente pasó, cuantificado. Por tema, por SKU, por canal, por mes.</div>
-      <div class="vbox-val">→ Sabes exactamente dónde ajustar</div>
-    </div>
-    <div class="vbox">
-      <div class="vbox-icon">📈</div>
-      <div class="vbox-title">Forecast con 3 escenarios</div>
-      <div class="vbox-desc">Base, optimista, pesimista. Ajustable semana a semana con datos reales. No un número estático de enero.</div>
-      <div class="vbox-val">→ Decisiones sobre un rango, no sobre un punto</div>
-    </div>
-  </div>
-
-  <p class="sm" style="margin-top:16px">100% modular. Se activa lo que sirve, con la data que exista. Sin integraciones, sin SAP, sin IT.</p>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<div style="font-size:12px;font-weight:800">APP</div>
+<div style="font-size:11px;color:#9B9A97">Star Wars · LEGO Chile / EBI</div>
 </div>
 
-<!-- ═══ DEMO ═══ -->
-<div class="pg" id="p1">
-  <div id="pre">
-    <h2>Demo — <em>Building Sets Chile</em></h2>
-    <p>50 SKUs × 5 canales × 12 meses. Estructura real, datos simulados.</p>
-    <button class="bb bx dm" onclick="runDemo()" style="margin-top:12px">▶ Correr demo</button>
-  </div>
-
-  <div id="post" style="display:none">
-    <span class="badge">DEMO · DATOS SIMULADOS</span>
-
-    <!-- COBERTURA -->
-    <div class="rc">
-      <div class="rt">📦 Cobertura por tema × canal</div>
-      <div style="overflow-x:auto">
-        <table class="d">
-          <thead><tr><th>Tema</th><th>Stock</th><th>Vta/Mes</th><th>Cobertura</th><th>Status</th><th>Acción sugerida</th></tr></thead>
-          <tbody>
-            <tr><td>Harry Potter</td><td class="mono">1,990</td><td class="mono">290</td><td class="mono" style="color:var(--red)"><strong>6.9m</strong></td><td><span class="pl po">SOBRE PLAN</span></td><td style="font-size:10px;text-align:left">Revisar volumen OC. Redistribuir a DTC.</td></tr>
-            <tr><td>Star Wars</td><td class="mono">1,705</td><td class="mono">380</td><td class="mono" style="color:var(--or)">4.5m</td><td><span class="pl po">SOBRE PLAN</span></td><td style="font-size:10px;text-align:left">Ajustar OC. Evaluar redistribución 75419.</td></tr>
-            <tr><td>City</td><td class="mono">1,110</td><td class="mono">350</td><td class="mono" style="color:var(--grn)">3.2m</td><td><span class="pl pg2">OK</span></td><td style="font-size:10px;text-align:left">Mantener.</td></tr>
-            <tr><td>Speed Champions</td><td class="mono">700</td><td class="mono">280</td><td class="mono" style="color:var(--grn)">2.5m</td><td><span class="pl pg2">OK</span></td><td style="font-size:10px;text-align:left">Seguimiento semanal activado.</td></tr>
-            <tr><td>Technic</td><td class="mono">432</td><td class="mono">310</td><td class="mono" style="color:var(--or)"><strong>2.8m</strong></td><td><span class="pl pe">BAJO UMBRAL</span></td><td style="font-size:10px;text-align:left">OC requerida. Lead time 14 sem.</td></tr>
-            <tr><td>Icons</td><td class="mono">275</td><td class="mono">195</td><td class="mono" style="color:var(--or)"><strong>2.5m</strong></td><td><span class="pl pe">BAJO UMBRAL</span></td><td style="font-size:10px;text-align:left">Reposición sets premium DTC.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- REDISTRIBUCIÓN -->
-    <div class="rc">
-      <div class="rt">🔄 Oportunidades de redistribución</div>
-      <div style="overflow-x:auto">
-        <table class="d">
-          <thead><tr><th>SKU</th><th>Descripción</th><th>Canal origen</th><th>Canal destino</th><th>Uds</th><th>Por qué</th></tr></thead>
-          <tbody>
-            <tr><td class="mono">75419</td><td style="text-align:left">Estrella de la Muerte</td><td>Falabella</td><td>tiendalego.cl</td><td class="mono">43</td><td style="font-size:10px;text-align:left">Sell-through DTC 2.3x mayor</td></tr>
-            <tr><td class="mono">76435</td><td style="text-align:left">Hogwarts Express</td><td>Ripley</td><td>tiendalego.cl</td><td class="mono">28</td><td style="font-size:10px;text-align:left">Cobertura 6.9m en Ripley, 1.8m en DTC</td></tr>
-            <tr><td class="mono">10328</td><td style="text-align:left">Ramo de Rosas</td><td>Paris</td><td>MercadoLibre</td><td class="mono">35</td><td style="font-size:10px;text-align:left">Rotación 3x mayor en marketplace</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- BALANCE COMERCIAL -->
-    <div class="rc">
-      <div class="rt">💰 Balance Comercial — Top GAPs en USD</div>
-      <div style="overflow-x:auto">
-        <table class="d">
-          <thead><tr><th>Mes</th><th>SKU</th><th>Descripción</th><th>Canal</th><th>GAP uds</th><th>GAP USD</th><th></th></tr></thead>
-          <tbody>
-            <tr><td>Dic</td><td class="mono">10357</td><td style="text-align:left">Shelby Cobra 427</td><td>tiendalego.cl</td><td class="mono" style="color:var(--grn)">-13</td><td class="mono" style="color:var(--grn)">-$5,777</td><td><span class="pl pe">DÉFICIT</span></td></tr>
-            <tr><td>Dic</td><td class="mono">76435</td><td style="text-align:left">Hogwarts Express</td><td>Ripley</td><td class="mono" style="color:var(--red)">+24</td><td class="mono" style="color:var(--red)">$5,328</td><td><span class="pl po">EXCESO</span></td></tr>
-            <tr><td>Dic</td><td class="mono">75419</td><td style="text-align:left">Estrella de la Muerte</td><td>Falabella</td><td class="mono" style="color:var(--red)">+43</td><td class="mono" style="color:var(--red)">$4,300</td><td><span class="pl po">EXCESO</span></td></tr>
-            <tr><td>Nov</td><td class="mono">42205</td><td style="text-align:left">Corvette Stingray</td><td>Falabella</td><td class="mono" style="color:var(--grn)">-19</td><td class="mono" style="color:var(--grn)">-$3,166</td><td><span class="pl pe">DÉFICIT</span></td></tr>
-            <tr><td>Nov</td><td class="mono">75375</td><td style="text-align:left">Halcón Milenario</td><td>Ripley</td><td class="mono" style="color:var(--grn)">-14</td><td class="mono" style="color:var(--grn)">-$2,488</td><td><span class="pl pe">DÉFICIT</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- FORECAST -->
-    <div class="rc">
-      <div class="rt">📈 Forecast Dic-26 — 3 escenarios</div>
-      <div style="overflow-x:auto">
-        <table class="d">
-          <thead><tr><th>SKU</th><th>Descripción</th><th>Canal</th><th>Pesimista</th><th>Base</th><th>Optimista</th></tr></thead>
-          <tbody>
-            <tr><td class="mono">75419</td><td style="text-align:left">Estrella de la Muerte</td><td>Falabella</td><td class="mono" style="color:var(--red)">52</td><td class="mono"><strong>68</strong></td><td class="mono" style="color:var(--grn)">82</td></tr>
-            <tr><td class="mono">42205</td><td style="text-align:left">Corvette Stingray</td><td>Falabella</td><td class="mono" style="color:var(--red)">28</td><td class="mono"><strong>38</strong></td><td class="mono" style="color:var(--grn)">46</td></tr>
-            <tr><td class="mono">10357</td><td style="text-align:left">Shelby Cobra 427</td><td>tiendalego.cl</td><td class="mono" style="color:var(--red)">14</td><td class="mono"><strong>22</strong></td><td class="mono" style="color:var(--grn)">28</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- DOWNLOAD -->
-    <div style="text-align:center;margin:24px 0 8px">
-      <a href="APP_BB_Demo_LEGO_Chile.xlsx" download class="bb bdl" style="font-size:15px;padding:14px 32px">
-        ⬇ Descargar Excel completo
-      </a>
-      <p class="sm" style="margin-top:10px">6 hojas: Sell-In por SKU, Sell-Out, Inventario, Balance Comercial, Forecast 2026, Resumen Ejecutivo.</p>
-    </div>
-
-    <div style="margin-top:20px;padding:16px;background:var(--ls);border-radius:8px;border:1px solid var(--bdr)">
-      <p style="font-size:14px;color:var(--dk);margin-bottom:0"><strong>¿Funciona con tu data real?</strong> 3 meses de sell-in y sell-out en Excel. Las alertas se generan en 24 horas.</p>
-    </div>
-  </div>
+<!-- ═══ HERO ═══ -->
+<div style="padding:10px 12px;background:#F7F6F3;border-radius:8px;margin-bottom:12px;font-size:10px;color:#4A4845;line-height:1.6">
+<div style="font-size:11px;font-weight:800;margin-bottom:6px">🔒 Seguridad</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<span style="padding:3px 8px;background:white;border:1px solid #E9E9E7;border-radius:4px">🔐 Encriptación SSL/TLS + AES-256 en reposo</span>
+<span style="padding:3px 8px;background:white;border:1px solid #E9E9E7;border-radius:4px">🇨🇱 Cumple Ley 21.719 protección datos Chile</span>
+<span style="padding:3px 8px;background:white;border:1px solid #E9E9E7;border-radius:4px">🇪🇺 Infraestructura Europa (GDPR)</span>
+<span style="padding:3px 8px;background:white;border:1px solid #E9E9E7;border-radius:4px">🚫 Tu data no se almacena ni se comparte</span>
+<span style="padding:3px 8px;background:white;border:1px solid #E9E9E7;border-radius:4px">📄 Procesamiento aislado — entra, se cruza, sale resultado</span>
 </div>
+</div>
+
+<div style="text-align:center;margin-bottom:20px">
+<div style="font-size:clamp(18px,3.5vw,24px);font-weight:800;color:#1a1916;line-height:1.3">La app cruza sell-in, sell-out e inventario de todos los canales. En <span style="color:#5B4FE8">1 minuto</span>. A nivel SKU.</div>
 
 </div>
 
-<div class="lo" id="lo">
-  <div class="sp"></div>
-  <div class="lt" id="lt">Procesando...</div>
-  <div class="ls" id="ls"></div>
+<!-- ═══ MATRIZ COPEC ═══ -->
+<div style="font-size:14px;font-weight:800;color:#1a1916;text-align:center;margin-bottom:8px">¿Qué pasa cuando cruzas tu data?</div>
+<div style="overflow-x:auto;margin-bottom:8px">
+<table style="width:100%;border-collapse:collapse;text-align:center;min-width:340px">
+<tr>
+<td style="padding:6px;background:#1a1916;color:white;font-size:8px;font-weight:700;width:60px;border:1px solid #E9E9E7"></td>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">📊 SO</td>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">📦 SI</td>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">🏪 Inv.R</td>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">🏭 Inv.D</td>
+</tr>
+<tr>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">📊 SO</td>
+<td style="padding:5px;border:1px solid #E9E9E7;background:#E9E9E7;color:#ccc;font-size:9px">—</td>
+<td style="padding:5px;border:2px solid #D97706;background:#FFF7ED;font-weight:800;color:#92400E;font-size:9px;line-height:1.3">Capital<br>muerto<br><span style="font-size:7px;font-weight:400;color:#B45309">GAP en USD</span></td>
+<td style="padding:5px;border:2px solid #DC2626;background:#FEF2F2;font-weight:800;color:#991B1B;font-size:9px;line-height:1.3">Venta<br>perdida<br><span style="font-size:7px;font-weight:400;color:#B91C1C">quiebre × SKU</span></td>
+<td style="padding:5px;border:2px solid #7C3AED;background:#F5F3FF;font-weight:800;color:#5B21B6;font-size:9px;line-height:1.3">Quiebre<br>futuro<br><span style="font-size:7px;font-weight:400;color:#6D28D9">countdown</span></td>
+</tr>
+<tr>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">📦 SI</td>
+<td style="padding:5px;border:2px solid #D97706;background:#FFF7ED;font-weight:800;color:#92400E;font-size:9px;line-height:1.3">Sobre-<br>stock<br><span style="font-size:7px;font-weight:400;color:#B45309">× canal</span></td>
+<td style="padding:5px;border:1px solid #E9E9E7;background:#E9E9E7;color:#ccc;font-size:9px">—</td>
+<td style="padding:5px;border:2px solid #D97706;background:#FFF7ED;font-weight:800;color:#92400E;font-size:9px;line-height:1.3">Fill rate<br>real<br><span style="font-size:7px;font-weight:400;color:#B45309">despacho</span></td>
+<td style="padding:5px;border:1px solid #E9E9E7;color:#4A4845;font-size:9px">Pipeline</td>
+</tr>
+<tr>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">🏪 Inv.R</td>
+<td style="padding:5px;border:2px solid #DC2626;background:#FEF2F2;font-weight:800;color:#991B1B;font-size:9px;line-height:1.3">DOH<br>× SKU<br><span style="font-size:7px;font-weight:400;color:#B91C1C">días on hand</span></td>
+<td style="padding:5px;border:1px solid #E9E9E7;color:#4A4845;font-size:9px">Cobertura</td>
+<td style="padding:5px;border:1px solid #E9E9E7;background:#E9E9E7;color:#ccc;font-size:9px">—</td>
+<td style="padding:5px;border:2px solid #7C3AED;background:#F5F3FF;font-weight:800;color:#5B21B6;font-size:9px;line-height:1.3">Redistri-<br>bución<br><span style="font-size:7px;font-weight:400;color:#6D28D9">entre canales</span></td>
+</tr>
+<tr>
+<td style="padding:6px;border:1px solid #E9E9E7;background:#F7F6F3;font-weight:700;color:#4A4845;font-size:9px">🏭 Inv.D</td>
+<td style="padding:5px;border:2px solid #7C3AED;background:#F5F3FF;font-weight:800;color:#5B21B6;font-size:9px;line-height:1.3">0 tránsito<br><span style="font-size:7px;font-weight:400;color:#6D28D9">alerta</span></td>
+<td style="padding:5px;border:1px solid #E9E9E7;color:#4A4845;font-size:9px">Reposición</td>
+<td style="padding:5px;border:1px solid #E9E9E7;color:#4A4845;font-size:9px">Transfer</td>
+<td style="padding:5px;border:1px solid #E9E9E7;background:#E9E9E7;color:#ccc;font-size:9px">—</td>
+</tr>
+</table>
+</div>
+
+<div style="display:flex;gap:10px;justify-content:center;font-size:9px;color:#6B6967;margin-bottom:12px">
+<span>🟥 Plata perdida</span>
+<span>🟧 Capital atrapado</span>
+<span>🟪 Redistribución</span>
+</div>
+
+<div style="display:flex;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+<div style="display:flex;gap:4px;flex-wrap:wrap">
+<span style="padding:3px 8px;background:#F7F6F3;border:1px solid #E9E9E7;border-radius:4px;font-size:10px;font-weight:600">📦 SI</span>
+<span style="padding:3px 8px;background:#F7F6F3;border:1px solid #E9E9E7;border-radius:4px;font-size:10px;font-weight:600">📊 SO</span>
+<span style="padding:3px 8px;background:#F7F6F3;border:1px solid #E9E9E7;border-radius:4px;font-size:10px;font-weight:600">🏭 Inv.D</span>
+<span style="padding:3px 8px;background:#F7F6F3;border:1px solid #E9E9E7;border-radius:4px;font-size:10px;font-weight:600">🏪 Inv.R</span>
+
+</div>
+<span style="font-size:16px">→</span>
+<span style="padding:4px 12px;background:#5B4FE8;color:white;border-radius:4px;font-size:10px;font-weight:700">1 min</span>
+<span style="font-size:16px">→</span>
+<span style="padding:3px 8px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:4px;font-size:10px;font-weight:600;color:#16A34A">📋 Resultado</span>
+</div>
+
+<div style="padding:8px;background:#F7F6F3;border-radius:6px;text-align:center;margin-bottom:20px;font-size:11px;display:none">
+<b style="color:#5B4FE8"> Con APP →</b> 1 minuto.
+</div>
+
+<!-- ═══ SHOW INPUT DATA BUTTON ═══ -->
+<div style="text-align:center;margin-bottom:8px" id="pre">
+<button onclick="showData()" style="padding:12px 32px;background:#F7F6F3;border:2px solid #E9E9E7;border-radius:10px;color:#4A4845;font-size:12px;font-weight:700;cursor:pointer;font-family:Outfit">📂 Ver datos simulados</button>
+<div style="font-size:10px;color:#9B9A97;margin-top:6px">Star Wars · 7 SKUs × 5 canales × Mar–May 2026</div>
+</div>
+
+<!-- ═══ INPUT DATA (hidden) ═══ -->
+<div id="inputData" style="display:none">
+
+<div style="text-align:center;margin-bottom:10px"><div style="font-size:13px;font-weight:800;color:#1a1916">Estos son los archivos que subiría el equipo</div><div style="font-size:11px;color:#9B9A97">Simulación con 1 categoría: Star Wars.</div></div>
+
+<div class="acc" onclick="this.classList.toggle('open')">
+<div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:2px 0" onclick="var t=this.nextElementSibling;t.style.display=t.style.display==='none'?'table':'none';this.querySelector('.ar').textContent=t.style.display==='none'?'▸':'▾'"><div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">📦</span><span style="font-size:12px;font-weight:800">Sell In</span></div><span class="ar" style="color:#9B9A97;font-size:14px">▸</span></div>
+<table style="display:none;width:100%;font-size:10px;border-collapse:collapse;min-width:500px">
+<tr style="background:#F7F6F3;color:#9B9A97"><th style="padding:4px;text-align:left;font-weight:600">Fecha</th><th style="padding:4px;font-weight:600">Retailer</th><th style="padding:4px;font-weight:600">Marca</th><th style="padding:4px;font-weight:600">Familia</th><th style="padding:4px;font-weight:600">Cod.</th><th style="padding:4px;font-weight:600">Un.</th><th style="padding:4px;font-weight:600;text-align:right">Venta Total s/IVA</th><th style="padding:4px;font-weight:600;text-align:right">Costo int. unit.</th><th style="padding:4px;font-weight:600;text-align:right">Precio Prom. s/IVA</th></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Falabella</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75419</td><td class="num" style="text-align:center">25</td><td class="num">1.775.000</td><td class="num">58.000</td><td class="num">71.000</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Ripley</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75419</td><td class="num" style="text-align:center">18</td><td class="num">1.278.000</td><td class="num">58.000</td><td class="num">71.000</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">tiendalego.cl</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75419</td><td class="num" style="text-align:center">12</td><td class="num">852.000</td><td class="num">58.000</td><td class="num">71.000</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Falabella</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75446</td><td class="num" style="text-align:center">45</td><td class="num">1.215.000</td><td class="num">22.000</td><td class="num">27.000</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Ripley</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75446</td><td class="num" style="text-align:center">38</td><td class="num">1.026.000</td><td class="num">22.000</td><td class="num">27.000</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">tiendalego.cl</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75446</td><td class="num" style="text-align:center">12</td><td class="num">324.000</td><td class="num">22.000</td><td class="num">27.000</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">tiendalego.cl</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75375</td><td class="num" style="text-align:center">12</td><td class="num">1.044.000</td><td class="num">71.000</td><td class="num">87.000</td></tr>
+<tr><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td></tr>
+</table>
+</div>
+
+<div class="acc" onclick="this.classList.toggle('open')">
+<div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:2px 0" onclick="var t=this.nextElementSibling;t.style.display=t.style.display==='none'?'table':'none';this.querySelector('.ar').textContent=t.style.display==='none'?'▸':'▾'"><div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">📊</span><span style="font-size:12px;font-weight:800">Sell Out</span></div><span class="ar" style="color:#9B9A97;font-size:14px">▸</span></div>
+<table style="display:none;width:100%;font-size:10px;border-collapse:collapse;min-width:460px">
+<tr style="background:#F7F6F3;color:#9B9A97"><th style="padding:4px;text-align:left;font-weight:600">Fecha</th><th style="padding:4px;font-weight:600">Retailer</th><th style="padding:4px;font-weight:600">Marca</th><th style="padding:4px;font-weight:600">Familia</th><th style="padding:4px;font-weight:600">Cod. Producto</th><th style="padding:4px;font-weight:600">Unidades</th><th style="padding:4px;font-weight:600;text-align:right">Venta Total sin IVA</th><th style="padding:4px;font-weight:600;text-align:right">Precio Prom. s/IVA</th></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Falabella</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75419</td><td class="num" style="text-align:center">18</td><td class="num">1.966.230</td><td class="num">109.235</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Ripley</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75419</td><td class="num" style="text-align:center">14</td><td class="num">1.529.290</td><td class="num">109.235</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">tiendalego.cl</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75419</td><td class="num" style="text-align:center">22</td><td class="num">2.403.170</td><td class="num">109.235</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Falabella</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75446</td><td class="num" style="text-align:center">35</td><td class="num">1.470.280</td><td class="num">42.008</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Ripley</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75446</td><td class="num" style="text-align:center">30</td><td class="num">1.260.240</td><td class="num">42.008</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">tiendalego.cl</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75446</td><td class="num" style="text-align:center">18</td><td class="num">756.144</td><td class="num">42.008</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">Falabella</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75375</td><td class="num" style="text-align:center">12</td><td class="num">1.613.340</td><td class="num">134.445</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td style="padding:4px" class="code">2026-03</td><td style="padding:4px">tiendalego.cl</td><td style="padding:4px">LEGO</td><td style="padding:4px">Star Wars</td><td style="padding:4px" class="code">75375</td><td class="num" style="text-align:center">18</td><td class="num">2.420.010</td><td class="num">134.445</td></tr>
+<tr><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td></tr>
+</table>
+</div>
+
+<div class="acc" onclick="this.classList.toggle('open')">
+<div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:2px 0" onclick="var t=this.nextElementSibling;t.style.display=t.style.display==='none'?'table':'none';this.querySelector('.ar').textContent=t.style.display==='none'?'▸':'▾'"><div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🏭</span><span style="font-size:12px;font-weight:800">Inventario Distribuidor</span></div><span class="ar" style="color:#9B9A97;font-size:14px">▸</span></div>
+<table style="display:none;width:100%;font-size:9px;border-collapse:collapse;min-width:360px">
+<tr style="background:#F7F6F3;color:#9B9A97"><th style="padding:4px;text-align:left;font-weight:600">Fecha Corte</th><th style="padding:4px;font-weight:600">Bodega</th><th style="padding:4px;font-weight:600">Cod.</th><th style="padding:4px;font-weight:600;color:#16A34A">Disp.</th><th style="padding:4px;font-weight:600;color:#D97706">Tránsito</th><th style="padding:4px;font-weight:600">ETA</th></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Stgo Centro</td><td class="code">75419</td><td style="padding:4px;text-align:center;color:#16A34A;font-weight:700" class="mono">185</td><td style="padding:4px;text-align:center;color:#D97706;font-weight:700" class="mono">0</td><td class="num" style="text-align:center">—</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Stgo Centro</td><td class="code">75375</td><td style="padding:4px;text-align:center;color:#DC2626;font-weight:700" class="mono">42</td><td style="padding:4px;text-align:center;color:#D97706;font-weight:700" class="mono">0</td><td class="num" style="text-align:center">—</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Stgo Centro</td><td class="code">75446</td><td style="padding:4px;text-align:center;color:#16A34A;font-weight:700" class="mono">320</td><td style="padding:4px;text-align:center;color:#D97706;font-weight:700" class="mono">0</td><td class="num" style="text-align:center">—</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Stgo Centro</td><td class="code">75438</td><td style="padding:4px;text-align:center;color:#DC2626;font-weight:700" class="mono">28</td><td style="padding:4px;text-align:center;color:#D97706;font-weight:700" class="mono">0</td><td class="num" style="text-align:center">—</td></tr>
+<tr><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td></tr>
+</table>
+</div>
+
+<div class="acc" onclick="this.classList.toggle('open')">
+<div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:2px 0" onclick="var t=this.nextElementSibling;t.style.display=t.style.display==='none'?'table':'none';this.querySelector('.ar').textContent=t.style.display==='none'?'▸':'▾'"><div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🏪</span><span style="font-size:12px;font-weight:800">Inventario Retail</span></div><span class="ar" style="color:#9B9A97;font-size:14px">▸</span></div>
+<table style="display:none;width:100%;font-size:9px;border-collapse:collapse;min-width:320px">
+<tr style="background:#F7F6F3;color:#9B9A97"><th style="padding:4px;text-align:left;font-weight:600">Fecha Corte</th><th style="padding:4px;font-weight:600">Retail</th><th style="padding:4px;font-weight:600">Cod. Producto</th><th style="padding:4px;font-weight:600;color:#16A34A">Stock Tienda</th><th style="padding:4px;font-weight:600;color:#16A34A">Stock Bodega</th></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Falabella</td><td class="code">75419</td><td style="padding:4px;text-align:center;color:#16A34A;font-weight:700" class="mono">12</td><td style="padding:4px;text-align:center;color:#16A34A;font-weight:700" class="mono">36</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Falabella</td><td class="code">75446</td><td style="padding:4px;text-align:center;color:#16A34A;font-weight:700" class="mono">18</td><td style="padding:4px;text-align:center;color:#16A34A;font-weight:700" class="mono">52</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Ripley</td><td class="code">75419</td><td style="padding:4px;text-align:center;color:#D97706;font-weight:700" class="mono">3</td><td style="padding:4px;text-align:center;color:#D97706;font-weight:700" class="mono">8</td></tr>
+<tr style="border-bottom:1px solid #E9E9E7"><td class="code">2026-05-19</td><td >Ripley</td><td class="code">75375</td><td style="padding:4px;text-align:center;color:#DC2626;font-weight:700" class="mono">1</td><td style="padding:4px;text-align:center;color:#DC2626;font-weight:700" class="mono">2</td></tr>
+<tr><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td><td style="color:#D4D3D0">…</td></tr>
+</table>
+</div>
+
+
+
+<div style="text-align:center;margin-bottom:20px">
+<button onclick="demo()" style="padding:14px 40px;background:#5B4FE8;border:none;border-radius:10px;color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:Outfit;box-shadow:0 4px 16px rgba(91,79,232,0.25)">▶ CRUZAR TODO → VER RESULTADO</button>
+</div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="post" style="display:none">
+
+<div style="text-align:center;padding:20px 0">
+<div style="font-size:16px;font-weight:800;color:#1a1916;margin-bottom:4px">Listo. 2 reportes generados.</div>
+<div style="font-size:12px;color:#9B9A97;margin-bottom:20px">Star Wars · 7 SKUs × 5 canales × Mar–Dic 2026 · Datos simulados</div>
+
+<div style="display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto">
+
+<a href="APPBB_Accionables_StarWars.xlsx" download style="padding:16px 20px;background:#5B4FE8;color:white;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;font-family:Outfit;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 16px rgba(91,79,232,0.2)">
+<div style="text-align:left"><div>⬇ Accionables por SKU</div><div style="font-size:10px;font-weight:400;opacity:.8;margin-top:2px">10 acciones · por SKU · por canal · qué hacer · de dónde sale la conclusión</div></div>
+
+</a>
+
+<a href="APPBB_Forecast_StarWars.xlsx" download style="padding:16px 20px;background:#1a1916;color:white;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;font-family:Outfit;display:flex;justify-content:space-between;align-items:center">
+<div style="text-align:left"><div>⬇ Forecast Jun–Dic 2026</div><div style="font-size:10px;font-weight:400;opacity:.7;margin-top:2px">3 hojas: unidades + revenue CLP + revenue USD · 7 SKUs × 5 canales × 3 escenarios</div></div>
+</a>
+
+</div>
+
+<div style="font-size:11px;color:#9B9A97;margin-top:16px">Cada acción dice exactamente de qué cruce salió la conclusión.</div>
+</div>
+
 </div>
 
 <script>
-let c=0;
-function go(i){c=i;document.querySelectorAll('.pg').forEach((p,j)=>p.classList.toggle('on',j===i));document.querySelectorAll('.t').forEach((t,j)=>t.classList.toggle('on',j===i));document.querySelector('.pa').scrollTop=0}
-const st=[["Cruzando sell-in × sell-out × inventario...",600],["Calculando cobertura por SKU × canal...",500],["Identificando redistribución entre canales...",700],["Cuantificando balance comercial...",600],["Generando forecast 3 escenarios...",700]];
-async function runDemo(){const l=document.getElementById('lo'),t=document.getElementById('lt'),s=document.getElementById('ls');l.classList.add('on');for(let i=0;i<st.length;i++){t.textContent=st[i][0];s.textContent=`${i+1}/${st.length}`;await new Promise(r=>setTimeout(r,st[i][1]))}l.classList.remove('on');document.getElementById('pre').style.display='none';document.getElementById('post').style.display='block'}
+function showData(){document.getElementById('pre').style.display='none';document.getElementById('inputData').style.display='block';}
+async function demo(){
+  document.getElementById('inputData').style.display='none';
+  const lo=document.getElementById('loader');
+  const lt=document.getElementById('ltxt');
+  const ls=document.getElementById('lstep');
+  lo.style.display='flex';
+  const steps=[
+    ["Leyendo sell-in desde ERP...",500],
+    ["Conectando portal B2B Falabella...",600],
+    ["Descargando sell-out Falabella...",700],
+    ["Conectando portal B2B Ripley...",500],
+    ["Descargando sell-out Ripley...",600],
+    ["Conectando portal B2B Paris...",400],
+    ["Descargando sell-out Paris...",500],
+    ["Leyendo sell-out tiendalego.cl...",600],
+    ["Descargando inventario MercadoLibre...",400],
+    ["Cruzando inventario bodega + 9 tiendas...",700],
+    ["Calculando cobertura por SKU × canal...",600],
+    ["Identificando redistribución DTC vs retail...",700],
+    ["Cuantificando GAP comercial en CLP + USD...",600],
+    ["Generando forecast 3 escenarios Jun–Dic...",800],
+    ["Priorizando accionables por impacto...",500],
+    ["Generando resultado...",400],
+  ];
+  for(let i=0;i<steps.length;i++){
+    lt.textContent=steps[i][0];
+    ls.textContent=`${i+1} de ${steps.length}`;
+    await new Promise(r=>setTimeout(r,steps[i][1]));
+  }
+  lo.style.display='none';
+  document.getElementById('pre').style.display='none';
+  document.getElementById('post').style.display='block';
+}
 </script>
+
+<!-- LOADER -->
+<div id="loader" style="display:none;position:fixed;inset:0;background:rgba(255,255,255,.97);z-index:99;flex-direction:column;align-items:center;justify-content:center">
+<div style="width:36px;height:36px;border:3px solid #E9E9E7;border-top-color:#5B4FE8;border-radius:50%;animation:sp .7s linear infinite;margin-bottom:14px"></div>
+<div id="ltxt" style="font-family:monospace;font-size:12px;color:#5B4FE8;text-align:center;max-width:300px"></div>
+<div id="lstep" style="font-size:11px;color:#9B9A97;margin-top:4px"></div>
+</div>
+<style>@keyframes sp{to{transform:rotate(360deg)}}</style>
 </body>
 </html>
